@@ -26,5 +26,5 @@
   - `php artisan serve`
 	
  - #### Default user
-  - Email: test@gmail.com
-  - Password: 123456
+  	- Email: test@gmail.com
+  	- Password: 123456
