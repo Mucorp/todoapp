@@ -10,7 +10,7 @@
           </router-link>
         </li> -->
         <li class="nav-item" v-if="loggedIn">
-          <router-link to="/todos/create" class="nav-link">
+          <router-link to="/todo/create" class="nav-link">
             <i class="fa fa-plus-circle"></i> Add Todo
           </router-link>
         </li>

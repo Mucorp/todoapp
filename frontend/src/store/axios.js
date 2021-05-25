@@ -1,11 +1,12 @@
 import axios from "axios";
+import authHeader from '../services/auth-header'
 
 // Add a request interceptor
 axios.interceptors.request.use(
     config => {
         const token = 'localStorageService.getAccessToken()';
         if (token) {
-            config.headers['Authorization'] = 'Bearer ' + '5jFTCoesYp5hyw99OslOJ2RpKVas9vZfKPgDeAwo9wRk3z3v21W8j4HdTH1szUva';
+            config.headers['Authorization'] = 'Bearer ' + authHeader();
         }
         return config;
     },

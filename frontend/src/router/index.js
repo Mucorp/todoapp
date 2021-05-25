@@ -30,18 +30,18 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/Login.vue')
   },
+  // {
+  //   path: '/todos',
+  //   name: 'todos',
+  //   component: () => import('../views/todos/TodoList.vue')
+  // },
   {
-    path: '/todos',
-    name: 'todos',
-    component: () => import('../views/todos/TodoList.vue')
-  },
-  {
-    path: '/todos/create',
+    path: '/todo/create',
     name: 'todo Create',
     component: () => import('../views/todos/TodoCreate.vue')
   },
   {
-    path: '/todos/edit/:id',
+    path: '/todo/edit/:id',
     name: 'todoEdit',
     component: () => import('../views/todos/TodoEdit.vue')
   }

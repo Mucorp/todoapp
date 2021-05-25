@@ -81,13 +81,11 @@ export default {
   methods: {
     ...mapActions(["storeTodo"]),
     onSubmit() {
-      const { title, price, description } = this.todo;
+      const { title, description } = this.todo;
       this.storeTodo({
         title: title,
-        price: price,
-        image: null,
         description: description,
-        user_id: 1,
+        
       });
     }
   },

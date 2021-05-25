@@ -25,21 +25,11 @@
                   type="text"
                   class="form-control"
                   :value="todo.title"
-                  @input="updatetodoInputAction"
+                  @input="updateTodoInputAction"
                 />
                 <ErrorMessage name="title" class="text-danger" />
               </div>
-              <div class="col-6">
-                <label>todo Price:</label>
-                <Field
-                  name="price"
-                  type="number"
-                  class="form-control"
-                  :value="todo.price"
-                  @input="updatetodoInputAction"
-                />
-                <ErrorMessage name="price" class="text-danger" />
-              </div>
+              
             </div>
             <div class="form-group row">
               <div class="col-12">
@@ -49,7 +39,7 @@
                   as="textarea"
                   class="form-control"
                   :value="todo.description"
-                  @input="updatetodoInputAction"
+                  @input="updateTodoInputAction"
                 />
                 <ErrorMessage name="description" class="text-danger" />
               </div>
@@ -97,29 +87,23 @@ export default {
     ErrorMessage,
   },
 
-  created: function () {
-    this.id = this.$route.params.id;
-    this.fetchDetailtodo(this.id);
-  },
+
 
   computed: { ...mapGetters(["isUpdating", "updatedData", "todo", "isLoading"]) },
 
   methods: {
-    ...mapActions(["updatetodo", "updatetodoInput", "fetchDetailtodo"]),
+    ...mapActions(["updateTodo", "updateTodoInput", "fetchDetailTodo"]),
     onSubmit() {
-      const { title, price, description } = this.todo;
+      const { title, description } = this.todo;
       // return false;
-      this.updatetodo({
+      this.updateTodo({
         id: this.id,
         title: title,
-        price: price,
-        image: null,
         description: description,
-        user_id: 1,
       });
     },
-    updatetodoInputAction(e) {
-      this.updatetodoInput(e);
+    updateTodoInputAction(e) {
+      this.updateTodoInput(e);
     },
   },
 
@@ -133,7 +117,7 @@ export default {
           timer: 1000,
         });
 
-        this.$router.push({ name: "todos" });
+        this.$router.push('/');
       }
     },
   },
@@ -149,6 +133,10 @@ export default {
     return {
       schema,
     };
+  },
+    created: function () {
+    this.id = this.$route.params.id;
+    this.fetchDetailTodo(this.id);
   },
 };
 </script>

@@ -40,7 +40,7 @@ export default {
   computed: { ...mapGetters(["isDeleting", "deletedData"]) },
 
   methods: {
-    ...mapActions(["deletetodo", "fetchAllTodos"]),
+    ...mapActions(["deletetodo", "fetchAllTodos", 'fetchDetailTodo']),
     deletetodoModal(id) {
       this.$swal
         .fire({

@@ -1,6 +1,9 @@
 // import { GET_ALL_PRODUCTS } from "./Types";
 import axios from 'axios';
 
+
+
+
 // initial state
 const state = () => ({
   todos: [],
@@ -41,12 +44,11 @@ const actions = {
     // }
 
     commit('setTodoIsLoading', true);
-    let url = `${process.env.VUE_APP_API_URL}todo/show_all`;
+    let url = `${process.env.VUE_APP_API_URL}todo/show_all/`;
 
     await axios.get(url)
       .then(res => {
-        const todos = res.data.data.data;
-        console.log(todos);
+        const todos =  res.data;
         commit('setTodos', todos);
         commit('setTodoIsLoading', false);
       }).catch(err => {
@@ -57,9 +59,9 @@ const actions = {
 
   async fetchDetailTodo({ commit }, id) {
     commit('setTodoIsLoading', true);
-    await axios.get(`${process.env.VUE_APP_API_URL}todos/${id}`)
+    await axios.get(`${process.env.VUE_APP_API_URL}todo/show_todo/${id}`)
       .then(res => {
-        commit('setTodoDetail', res.data.data);
+        commit('setTodoDetail', res.data[0]);
         commit('setTodoIsLoading', false);
       }).catch(err => {
         console.log('error', err);
@@ -69,7 +71,7 @@ const actions = {
 
   async storeTodo({ commit }, todo) {
     commit('setTodoIsCreating', true);
-    await axios.post(`${process.env.VUE_APP_API_URL}todos`, todo)
+    await axios.post(`${process.env.VUE_APP_API_URL}todo/save_todo/`,todo )
       .then(res => {
         commit('saveNewTodos', res.data.data);
         commit('setTodoIsCreating', false);
@@ -82,9 +84,9 @@ const actions = {
   async updateTodo({ commit }, todo) {
     commit('setTodoIsUpdating', true);
     commit('setTodoIsUpdating', true);
-    await axios.post(`${process.env.VUE_APP_API_URL}todos/${todo.id}?_method=PUT`, todo)
+    await axios.put(`${process.env.VUE_APP_API_URL}todo/update_todo/${todo.id}/`, todo)
       .then(res => {
-        commit('saveUpdatedTodo', res.data.data);
+        commit('saveUpdatedTodo', res.data);
         commit('setTodoIsUpdating', false);
       }).catch(err => {
         console.log('error', err);
@@ -93,14 +95,17 @@ const actions = {
   },
 
 
-  async deleteTodo({ commit }, id) {
+  async deleteTodo({ commit, dispatch }, id) {
     commit('setTodoIsDeleting', true);
-    await axios.delete(`${process.env.VUE_APP_API_URL}todos/${id}`)
-      .then(res => {
-        commit('setDeleteTodo', res.data.data.id);
-        commit('setTodoIsDeleting', false);
-      }).catch(err => {
+    commit('setTodoIsLoading', true);
+    await axios.delete(`${process.env.VUE_APP_API_URL}todo/delete_todo/${id}`)
+    .then(
+        commit('setTodoIsLoading', false),
+        commit('setTodoIsDeleting', false),
+        dispatch('fetchDetailTodo') 
+      ).catch(err => {
         console.log('error', err);
+        commit('setTodoIsLoading', false);
         commit('setTodoIsDeleting', false);
       });
   },
@@ -124,9 +129,7 @@ const mutations = {
     state.todo = todo
   },
 
-  setDeleteTodo: (state, id) => {
-    state.todosPaginatedData.data.filter(x => x.id !== id);
-  },
+ 
 
   setTodoDetailInput: (state, e) => {
     let todo = state.todo;
@@ -135,12 +138,12 @@ const mutations = {
   },
 
   saveNewTodos: (state, todo) => {
-    state.todos.unshift(todo)
+    // state.todos.unshift(todo)
     state.createdData = todo;
   },
 
   saveUpdatedTodo: (state, todo) => {
-    state.todos.unshift(todo)
+    // state.todos.unshift(todo)
     state.updatedData = todo;
   },
 
